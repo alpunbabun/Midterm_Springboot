@@ -48,14 +48,14 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/login")
-    public Status loginCustomer(@Valid @RequestBody Customer customer) {
+    public Customer loginCustomer(@Valid @RequestBody Customer customer) {
         List<Customer> customers = customerRepository.findAll();
         for (Customer other : customers) {
             if (other.equals(customer)) {
 //                customerRepository.save(customer);
-                return Status.SUCCESSFULLY_LOGIN;
+                return other;
             }
-        }        return Status.FAILURE;
+        }        return null;
     }
 
     @PostMapping("/customers/logout")

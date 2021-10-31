@@ -32,7 +32,6 @@ public class Customer {
             mappedBy = "customer")
     private Set<Item> items = new HashSet<>();
 
-
     public Customer() {
     }
 
