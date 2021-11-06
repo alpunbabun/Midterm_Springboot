@@ -19,6 +19,16 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @GetMapping("/home")
+    public String home(){
+        return "This is Home Page";
+    }
+
+    @GetMapping("/admin")
+    public String admin(){
+        return "This is Admin Page";
+    }
+
     @GetMapping("/customers")
     public Page<Customer> getAllCustomers(Pageable pageable) {
         return customerRepository.findAll(pageable);
@@ -29,8 +39,8 @@ public class CustomerController {
         return customerRepository.findById(id);
     }
 
-    @PostMapping("/customers/register")
-    public Status registerCustomer(@Valid @RequestBody Customer newCustomer) {
+    @RequestMapping(value = "/customers/register", method= RequestMethod.POST)
+    public String registerCustomer(@Valid @RequestBody Customer newCustomer) {
         List<Customer> customers = customerRepository.findAll();
 
         System.out.println("New customer: " + newCustomer.toString());
@@ -40,11 +50,11 @@ public class CustomerController {
 
             if (customer.equals(newCustomer)) {
                 System.out.println("Customer Already exists!");
-                return Status.USER_ALREADY_EXISTS;
+                return "USER_ALREADY_EXISTS";
             }
         }
         customerRepository.save(newCustomer);
-        return Status.SUCCESSFULLY_REGISTERED;
+        return "SUCCESSFULLY_REGISTERED";
     }
 
     @PostMapping("/customers/login")

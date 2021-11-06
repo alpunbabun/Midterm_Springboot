@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -27,6 +26,9 @@ public class Customer {
     @NotNull
     private String password;
 
+    @NotNull
+    private String role;
+
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "customer")
@@ -41,6 +43,7 @@ public class Customer {
         this.email = email;
         this.username = username;
         this.password = password;
+
     }
 
     public Customer(@NotBlank String username,
@@ -81,6 +84,14 @@ public class Customer {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,12 +100,14 @@ public class Customer {
         return
 //              Objects.equals(email, customer.email) &&
                 Objects.equals(username, customer.username) &&
-                        Objects.equals(password, customer.password);
+                        Objects.equals(password, customer.password) &&
+                        Objects.equals(role, customer.role);
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, username, password);
+        return Objects.hash(id, email, username, password, role);
     }
 
     @Override
@@ -104,6 +117,7 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }
