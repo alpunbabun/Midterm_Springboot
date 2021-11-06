@@ -50,11 +50,13 @@ public class CustomerController {
         System.out.println("New customer: " + newCustomer.toString());
 
         for (Customer customer : customers) {
-            System.out.println("Registered customer: " + newCustomer.toString());
+            String email = customer.getEmail();
+            String username = customer.getUsername();
 
-            if (customer.equals(newCustomer)) {
-                System.out.println("Customer Already exists!");
+            if (username.equals(newCustomer.username)) {
                 return "USER_ALREADY_EXISTS";
+            } else if (email.equals(newCustomer.email)) {
+                return "Email Already Exists";
             }
         }
         newCustomer.setPassword(new BCryptPasswordEncoder().encode(newCustomer.getPassword()));
@@ -91,12 +93,13 @@ public class CustomerController {
             customer.setEmail(customerRequest.getEmail());
             customer.setUsername(customerRequest.getUsername());
             customer.setPassword(customerRequest.getPassword());
+            customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
             return customerRepository.save(customer);
         }).orElseThrow(() -> new ResourceNotFoundException("Customer id " + customerid + " not found"));
     }
 
     @DeleteMapping("/customers/{customerid}")
-    public Status deleteCustomer(@PathVariable("id") Long id) {
+    public Status deleteCustomer(@PathVariable("customerid") Long id) {
         boolean exists = customerRepository.existsById(id);
         if (!exists) {
             throw new IllegalStateException("customer with id" + id + "does not exists");

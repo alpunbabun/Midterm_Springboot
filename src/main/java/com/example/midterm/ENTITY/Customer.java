@@ -18,10 +18,10 @@ public class Customer {
     private Long id;
 
     @NotBlank
-    private String email;
+    public String email;
 
     @NotBlank
-    private String username;
+    public String username;
 
     @NotNull
     private String password;
