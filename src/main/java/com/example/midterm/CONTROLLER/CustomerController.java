@@ -57,6 +57,7 @@ public class CustomerController {
                 return "USER_ALREADY_EXISTS";
             }
         }
+        newCustomer.setPassword(new BCryptPasswordEncoder().encode(newCustomer.getPassword()));
         customerRepository.save(newCustomer);
         return "SUCCESSFULLY_REGISTERED";
     }
